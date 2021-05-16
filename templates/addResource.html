@@ -1,0 +1,78 @@
+{%extends "dashboard.html"%}
+{%block content%}
+<p style="font-style: oblique; font-size: larger; padding-top: 20px;">Add Resources</p>
+<form action="/dashboard/addResource" method="POST" enctype="multipart/form-data">
+    {%csrf_token%}
+    <div class="row">
+        <div class="col-sm">
+            <div class="form-group">
+                <label for="title">Title</label>
+                <input type="text" name="title" id="title" max="50" checked class="form-control">
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm">
+            <div class="form-group">
+                <label for="doc">Resource Document</label>
+                <input type="file" name="upload" id="doc" checked class="form-control">
+            </div>
+        </div>
+        <div class="col-sm">
+            <div class="form-group">
+                <label for="desc">Description</label>
+                <input type="text" name="description" id="desc" checked class="form-control">
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm">
+            <div class="form-group">
+                <label for="branch">Branch</label>
+                <select name="branch" id="branch" class="form-control">
+                    <option value="ALL">ALL</option>
+                    <option value="ECE">ECE</option>
+                    <option value="CSE">CSE</option>
+                    <option value="MECH">MECH</option>
+                    <option value="CIVIL">CIVIL</option>
+                    <option value="OTHER">OTHER</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-sm">
+            <div class="form-group">
+                <label for="year">Year</label>
+                <select name="year" id="year" class="form-control">
+                    <option value="ANY">ANY</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <input type="submit" value="Add Resource" class="btn btn-outline-success" />
+</form>
+<p style="font-style: oblique; font-size: larger; padding-top: 20px;">Your Resources</p>
+<div class="row">
+    {%for item in obj%}
+    <div class="col-sm-4">
+        <div class="card">
+            <div class="card-body">
+                <h6 class="card-title">{{item.title}}</h6>
+                <p class="card-text">
+                    <ul class="list-group">
+                        <li class="list-group-item">{{item.description}}</li>
+                        <li class="list-group-item">Uploaded By: {{item.user.first_name}}</li>
+                        <li class="list-group-item">Target Branch: {{item.branch}}</li>
+                        <li class="list-group-item">Year: {{item.year}}</li>
+                    </ul>
+                </p>
+                <center><a href="{{item.upload.url}}" class="btn btn-outline-primary">Open Resource</a></center>
+            </div>
+        </div>
+    </div>
+    {%endfor%}
+</div>
+{%endblock%}
